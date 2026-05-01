@@ -1,0 +1,23 @@
+{
+  "name": "agent-debate",
+  "owner": {
+    "name": "Joaquin Campo"
+  },
+  "metadata": {
+    "description": "Peer-to-peer agent debate orchestration for Claude Code",
+    "version": "1.0.0"
+  },
+  "plugins": [
+    {
+      "name": "agent-debate",
+      "source": "./",
+      "description": "Spawn a peer back-and-forth between Claude (max thinking) and Codex (high reasoning) on hard architecture and design questions. Returns a structured synthesis (decision, tradeoffs, unresolved disagreements). Agents can pause to ask the user clarifying questions when genuinely blocked.",
+      "version": "1.0.0",
+      "author": {
+        "name": "Joaquin Campo"
+      },
+      "category": "development",
+      "keywords": ["debate", "claude", "codex", "architecture", "decision-making"]
+    }
+  ]
+}

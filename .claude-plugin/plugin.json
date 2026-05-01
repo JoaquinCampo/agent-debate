@@ -1,0 +1,11 @@
+{
+  "name": "agent-debate",
+  "version": "1.0.0",
+  "description": "Spawn a peer back-and-forth between Claude (max thinking) and Codex (high reasoning) to deeply analyze hard tradeoffs and architecture decisions, with user-input proxying when the agents need clarification.",
+  "author": {
+    "name": "Joaquin Campo"
+  },
+  "license": "MIT",
+  "keywords": ["debate", "claude", "codex", "architecture", "decision-making", "peer-review"],
+  "skills": "./skills/"
+}
