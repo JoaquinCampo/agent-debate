@@ -67,7 +67,7 @@ if [ "${1:-}" = "--resume" ]; then
   } >> "$LOG"
 else
   TOPIC="${1:?usage: agent-debate.sh \"<topic>\" [rounds]   |   --resume <transcript_path>}"
-  MAX_ROUNDS="${2:-4}"
+  MAX_ROUNDS="${2:-100}"
   TS=$(date +%Y%m%d-%H%M%S)
   SLUG=$(printf '%s' "$TOPIC" | tr '[:upper:] ' '[:lower:]-' | tr -cd 'a-z0-9-' | cut -c1-50)
   DIR="${AGENT_DEBATE_DIR:-$HOME/agent-debates}"

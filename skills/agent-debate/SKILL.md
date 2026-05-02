@@ -16,7 +16,7 @@ bash "${CLAUDE_PLUGIN_ROOT}/skills/agent-debate/agent-debate.sh" "<topic>" [roun
 ```
 
 - Frame `<topic>` as a tight, single question. The user's words may be loose; tighten them.
-- Default 4 rounds. Use 2 for narrow questions, 6+ for genuinely contested architecture.
+- Default 100 rounds (effectively "let them converge naturally"). Lower it (e.g., 2 for narrow questions, 4 for medium, 6+ for contested architecture) when you want to cap runtime.
 - Transcript writes to `~/agent-debates/<timestamp>-<slug>.md`.
 - Each turn takes 30 to 90 seconds, so a 4-round debate runs 5 to 10 minutes. Always run in background and wait via `run_in_background: true` or Monitor. Do NOT poll.
 
@@ -82,4 +82,4 @@ For resume, same pattern with `--resume "<path>"` and stdin piped from the user'
 
 ## When the user asks "have them discuss X"
 
-That is the trigger. Tighten X into a single question, pick rounds (2 narrow, 4 default, 6+ contested), invoke the script, follow the protocol.
+That is the trigger. Tighten X into a single question, optionally pick a round cap (default 100 lets them converge naturally; lower to 2/4/6 to bound runtime), invoke the script, follow the protocol.

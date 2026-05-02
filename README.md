@@ -40,7 +40,7 @@ You can also be explicit by invoking the skill name (`agent-debate:agent-debate`
 The plugin will:
 
 1. Frame your topic into a tight question.
-2. Run a multi-round debate (default 4 rounds, ~5-10 minutes).
+2. Run a multi-round debate (default cap 100 rounds; agents typically converge well before that).
 3. If either agent emits `[ASK_USER: ...]`, the orchestrator pauses and asks you, then resumes.
 4. Return a synthesis: decision, tradeoffs, unresolved disagreements.
 5. Save the full transcript to `~/agent-debates/<timestamp>-<slug>.md` so you can dig in later.
