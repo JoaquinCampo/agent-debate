@@ -1,24 +1,36 @@
 ---
 name: agent-debate
-description: 'Use when the user wants Claude and Codex to debate or discuss something together, or presents a hard "X vs Y" architecture tradeoff. Triggers: "have them debate", "ask Codex too", "discuss with another agent". Skip simple lookups and code edits.'
+description: 'Use when the user wants two AI agents to debate or discuss something together, or presents a hard "X vs Y" architecture tradeoff. Default pair is Claude vs Codex; supports claude-codex, codex-claude, claude-claude, codex-codex. Triggers: "have them debate", "ask Codex too", "discuss with another agent", "two Claudes debating". Skip simple lookups and code edits.'
 ---
 
 # agent-debate
 
-Orchestrates a peer back-and-forth between Claude (`claude -p --effort max`) and Codex (`codex exec` with high reasoning). Captures the full transcript, lets the agents pause to ask the user a clarifying question when genuinely blocked, and produces a final synthesis (decision, tradeoffs, unresolved disagreements).
+Orchestrates a peer back-and-forth between two AI agents. Default pair is Claude (`claude -p --effort max`) vs Codex (`codex exec` with high reasoning), but any pairing of `claude` and `codex` is supported. Captures the full transcript, lets the agents pause to ask the user a clarifying question when genuinely blocked, and produces a final synthesis (decision, tradeoffs, unresolved disagreements).
 
 You are NOT a debater. Your job is: invoke the script, proxy any questions to the user, return the synthesis.
 
 ## How to invoke
 
 ```bash
-bash "${CLAUDE_PLUGIN_ROOT}/skills/agent-debate/agent-debate.sh" "<topic>" [rounds]
+bash "${CLAUDE_PLUGIN_ROOT}/skills/agent-debate/agent-debate.sh" [--pair <a>-<b>] "<topic>" [rounds]
 ```
 
 - Frame `<topic>` as a tight, single question. The user's words may be loose; tighten them.
 - Default 100 rounds (effectively "let them converge naturally"). Lower it (e.g., 2 for narrow questions, 4 for medium, 6+ for contested architecture) when you want to cap runtime.
 - Transcript writes to `~/agent-debates/<timestamp>-<slug>.md`.
 - Each turn takes 30 to 90 seconds, so a 4-round debate runs 5 to 10 minutes. Always run in background and wait via `run_in_background: true` or Monitor. Do NOT poll.
+
+### Picking the pair
+
+`--pair <a>-<b>` selects who debates. Valid: `claude-codex` (default), `codex-claude`, `claude-claude`, `codex-codex`. The first agent in the pair speaks first AND writes the final synthesis. Same-kind pairs are labeled "Claude A" / "Claude B" (or "Codex A" / "Codex B") so they can address each other.
+
+Pick the pair from the user's intent:
+- No mention of who debates → omit the flag (default `claude-codex`).
+- "have two Claudes debate", "ask another Claude" → `--pair claude-claude`.
+- "two Codexes", "have Codex argue with itself" → `--pair codex-codex`.
+- "have Codex go first", "let Codex open" → `--pair codex-claude`.
+
+If the user is ambiguous about who, default to `claude-codex` and mention what you picked.
 
 ## Protocol: three exit conditions
 
